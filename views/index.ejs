@@ -1,0 +1,37 @@
+<% include partials/header %>
+
+   <main>
+      <h1><%= heading %></h1>
+
+      <% if(articles.length > 0) { %>
+         
+         <ul>
+      
+         <% articles.forEach( article => { %>
+         
+            <li>
+               <article data-article-id="<%= article.id %>">  
+                  <a href="/article/<%= article.id %>">
+                     <%= article.title %>
+                  </a><br>
+                  
+                  By <a href="/user/<%= article.by %>">
+                     <%= article.by %>
+                  </a><br>
+
+                  <a href="<%= article.url %>">
+                     <%= article.url %>
+                  </a><b4></b4>
+
+                  <%= article.score %> points
+               </article>
+            </li>   
+         
+         <% }); %>
+         
+         </ul>
+
+      <% } %>
+   </main>
+
+<% include partials/footer %>   

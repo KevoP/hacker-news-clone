@@ -1,0 +1,25 @@
+<% include partials/header %>
+
+   <main>
+      <h1><%= heading %></h1>
+
+      <h2>
+         <%= article.title %>
+      </h2>
+
+      <a href="<%= article.url %>">
+         <%= article.url %>
+      </a><br>
+      
+      <%= JSON.stringify(comments) %>
+
+      By <a href="/user/<%= article.by %>">
+         <%= article.by %>
+      </a><br>                  
+      <%= article.score %> points
+
+      
+
+   </main>
+
+<% include partials/footer %>   
