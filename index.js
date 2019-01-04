@@ -21,6 +21,46 @@ app.use(express.static(path.join(__dirname, 'public')));
 //    next(err);
 // });
 
+/**********************************
+ * functions returning promises 
+ **********************************/
+function getItemPromise(itemId) {
+   let request = `https://hacker-news.firebaseio.com/v0/item/${itemId}.json?print=pretty`;
+   return axios.get(request);
+}
+
+
+
+
+/**********************************
+ * routes using promises
+ **********************************/
+app.get('/article/:articleId', (req, res) => {
+
+   // get the article by the id, return the JSON
+   getItemPromise(req.params.articleId)
+      .then(article => {
+         // get comments
+         let comments = article.data.kids.map(id => getItemPromise(id).then(comment => comment.data));
+         // return an article object with nested comments data 
+         return axios.all(comments)
+            .then(comments => {
+               return {article: article.data, comments: comments};
+            });
+      })
+      .then( articleWithComments => {
+         articleWithComments.title = articleWithComments.article.title;
+         articleWithComments.heading = articleWithComments.article.title;
+         // console.log('article with comments', articleWithComments);
+         res.render('article', articleWithComments);
+      })
+      .catch(error => {
+         console.log(error)
+      });
+
+});
+
+
 /**
  * getItemById
  * @description get the full data for a single article by its ID
@@ -48,13 +88,9 @@ function getMostRecentArticles()
       });
 }
 
-async function getComment(commentId)
+function getComment(commentId)
 {
-   try{
       return axios.get(`https://hacker-news.firebaseio.com/v0/item/${commentId}.json?print=pretty`);
-   } catch(error) {
-      console.log(error);
-   }
 }
 
 /**
@@ -81,24 +117,6 @@ app.get('/', (req, res) => {
          res.redirect('/error');
       });
 });
-
-app.get('/article/:articleId', (req, res) => {
-   getItemById(req.params.articleId)
-      .then(article => {
-         let promises = [];
-         article.kids.slice(0, 5).forEach(id => {
-            promises.push(getItemById(id));
-         });
-         return { title: 'title', heading: 'heading', article: article, comments: Promise.all(promises), nope: 'whut?'};
-      })
-      .then(templateData => {
-         res.render('article', templateData);
-      })
-      .catch(err => {
-         res.redirect('/error', err);
-      });
-});
-
 
 
 app.get('/news', (req, res) => {

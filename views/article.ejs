@@ -10,15 +10,22 @@
       <a href="<%= article.url %>">
          <%= article.url %>
       </a><br>
-      
-      <%= JSON.stringify(comments) %>
 
       By <a href="/user/<%= article.by %>">
          <%= article.by %>
       </a><br>                  
       <%= article.score %> points
 
-      
+      <% if(comments && comments.length > 0) { %>
+         <ul>
+            <% comments.forEach(comment => { %>
+               <li>
+                  <%- comment.text %>
+                  by <strong><%- comment.by %></strong>
+               </li>
+            <% }) %>   
+         </ul>
+      <% } %>
 
    </main>
 
