@@ -1,9 +1,15 @@
 const express = require('express');
 const path = require('path');
-const app = express();
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+
 const bodyParser = require('body-parser');
 const axios = require('axios');
 const router = express.Router();
+
+
+const app = express();
 
 // point to the views directory and use ejs
 app.set('views', path.join(__dirname, 'views'));
@@ -182,3 +188,5 @@ app.get('/async', (req, res) => {
 app.listen(3000, () => {
    console.log('listening on 3000');
 });
+
+module.exports = app;
