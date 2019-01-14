@@ -10,10 +10,10 @@ const axios = require('axios');
 const router = express.Router();
 
 /**
- * Setup the routes
+ * import the routes
  */
-var indexRouter = require('./routes/index');
-var userRouter = require('./routes/article');
+const indexRouter = require('./routes/index');
+const articleRouter = require('./routes/article');
 
 const app = express();
 
@@ -30,12 +30,26 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// routes
+app.use('/', indexRouter);
+app.use('/article/:articleId', articleRouter);
+
 // catch 404s
-// app.use((req, res, next) => {
-//    const err = new Error('Not Found');
-//    err.status = 404;
-//    next(err);
-// });
+app.use((req, res, next) => {
+   const err = new Error('Not Found');
+   err.status = 404;
+   next(err);
+});
+
+// catch errors
+app.use(function(err, req, res, next){
+   res.locals.message = err.message;
+   res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+   // render the error page
+   res.status(err.status || 500);
+   res.render('error');
+});
 
 /**********************************
  * functions returning promises 
