@@ -20,8 +20,8 @@ const app = express();
 /**
  * setup the views
  */
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 // // Middleware?
 app.use(logger('dev'));
@@ -34,22 +34,26 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/', articleRouter);
 
-// // catch 404s
-// app.use((req, res, next) => {
-//    const err = new Error('Not Found');
-//    err.status = 404;
-//    next(err);
-// });
+app.get('/favicon.ico', (req, res) => res.status(204));
 
-// // catch errors
-// app.use(function(err, req, res, next){
-//    res.locals.message = err.message;
-//    res.locals.error = req.app.get('env') === 'development' ? err : {};
+// catch 404s
+app.use((req, res, next) => {
+   const err = new Error('Not Found');
+   err.status = 404;
+   next(err);
+});
 
-//    // render the error page
-//    res.status(err.status || 500);
-//    res.render('error');
-// });
+// catch errors
+app.use(function(err, req, res, next){
+   res.locals.message = err.message;
+   res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+   console.log(err);
+
+   // render the error page
+   res.status(err.status || 500);
+   res.render('error', {title: '404 - page not found'});
+});
 
 
 
@@ -101,27 +105,10 @@ app.use('/', articleRouter);
  * @description get the full data for a single article by its ID
  * @param {int} itemId 
  */
-// function getItemById(itemId)
-// {
-//    let request = `https://hacker-news.firebaseio.com/v0/item/${itemId}.json?print=pretty`;
-//    return axios.get(request)
-//       .then(res => res.data)
-//       .catch(err => console.log('get Article error'));
-// }
 
 
-// function getMostRecentArticles()
-// {
-//    return axios.get('https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty')
-//       .then(res => res.data)
-//       .then(data => {
-//          let promises = [];
-//          data.slice(0, 20).forEach(id => {
-//             promises.push(getItemById(id));
-//          });
-//          return Promise.all(promises);
-//       });
-// }
+
+
 
 // function getComment(commentId)
 // {
