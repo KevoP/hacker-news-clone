@@ -22,13 +22,16 @@ function getItemById(itemId)
       .catch(err => console.log('get Article error'));
 }
 
+function getItemPromise(itemId) {
+   let request = `https://hacker-news.firebaseio.com/v0/item/${itemId}.json?print=pretty`;
+   return axios.get(request);
+}
+
 /**
  * get the 20 most recent articles
  */
 exports.article_list = function(req, res)
 {
-   console.log('a thing');
-
    getMostRecentArticles()
       .then( articles => {
          let templateData = { title: 'Home', heading: 'Hacker News Clone', articles: articles };
@@ -44,6 +47,29 @@ exports.article_list = function(req, res)
  * Get the full data for an article
  */
 exports.article_detail = function (req, res) {
-   res.send('Have not implemented article_detail: ' + req.params.articleId);
+   if(!req.params.articleId){
+      res.send('no article id sent');
+   }
+
+   getItemPromise(req.params.articleId)
+      .then(article => {
+         article.data
+          // get comments
+         let comments = article.data.kids.map(id => getItemPromise(id).then(comment => comment.data));
+         // return an article object with nested comments data 
+         return axios.all(comments)
+            .then(comments => {
+               return {article: article.data, comments: comments};
+            });
+      })
+      .then(articleWithComments => {
+         articleWithComments.title = articleWithComments.article.title;
+         articleWithComments.heading = articleWithComments.article.title;
+         // console.log('article with comments', articleWithComments);
+         res.render('article', articleWithComments);
+      })
+      .catch(err => {
+         console.log('Error getting article data', err);
+      });
 }
 
