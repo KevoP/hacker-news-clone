@@ -34,7 +34,7 @@ exports.article_list = function(req, res)
 {
    getMostRecentArticles()
       .then( articles => {
-         let templateData = { title: 'Home', heading: 'Hacker News Clone', articles: articles };
+         let templateData = { title: 'Hacker News', heading: 'Hacker News Clone', articles: articles };
          res.render('index', templateData);
       })
       .catch(err => {

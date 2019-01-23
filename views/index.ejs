@@ -1,11 +1,10 @@
 <% include partials/header %>
 
    <main>
-      <h1><%= heading %></h1>
 
       <% if(articles.length > 0) { %>
          
-         <ul>
+         <ol class="article-list">
       
          <% articles.forEach( article => { %>
          
@@ -29,7 +28,7 @@
          
          <% }); %>
          
-         </ul>
+         </ol>
 
       <% } %>
    </main>
