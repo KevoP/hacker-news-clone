@@ -2,28 +2,26 @@
 
    <main>
 
-      <% if(articles.length > 0) { %>
+      <% if(stories.length > 0) { %>
          
-         <ol class="article-list">
+         <ol class="story-list">
       
-         <% articles.forEach( article => { %>
+         <% stories.forEach( story => { %>
          
             <li>
-               <article data-article-id="<%= article.id %>">  
-                  <a href="/article/<%= article.id %>">
-                     <%= article.title %>
-                  </a><br>
+               <story data-story-id="<%= story.id %>">
+                  <p>
+                     <a href="/story/<%= story.id %>"><%= story.title %></a> 
+                     (<a href="" class="source-site"><%= story.source %></a>)
+                  </p>
+                  <p>
+                     <%= story.score %> points 
+                     by <a href="/user/<%= story.by %>"><%= story.by %></a>
+                     <span>time???</span> | <a href="">hide</a> | <%= story.descendants %> comments
+                  </p>
+
                   
-                  By <a href="/user/<%= article.by %>">
-                     <%= article.by %>
-                  </a><br>
-
-                  <a href="<%= article.url %>">
-                     <%= article.url %>
-                  </a><b4></b4>
-
-                  <%= article.score %> points
-               </article>
+               </story>
             </li>   
          
          <% }); %>

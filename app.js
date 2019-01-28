@@ -13,7 +13,8 @@ const router = express.Router();
  * import the routes
  */
 const indexRouter = require('./routes/index');
-const articleRouter = require('./routes/article');
+const storyRouter = require('./routes/story');
+const newRouter = require('./routes/new');
 
 const app = express();
 
@@ -23,18 +24,19 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// // Middleware?
+// Middleware
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// // routes
+// routes
 app.use('/', indexRouter);
-app.use('/', articleRouter);
+app.use('/', storyRouter);
+app.use('/', newRouter);
 
-app.get('/favicon.ico', (req, res) => res.status(204));
+// app.get('/favicon.ico', (req, res) => res.status(204));
 
 // catch 404s
 app.use((req, res, next) => {
@@ -88,9 +90,9 @@ app.use(function(err, req, res, next){
 
 // app.get('/', (req, res) => {
 
-//    getMostRecentArticles()
-//       .then( articles => {
-//          let templateData = { title: 'Home', heading: 'Hacker News Clone', articles: articles };
+//    getMostRecentstories()
+//       .then( stories => {
+//          let templateData = { title: 'Home', heading: 'Hacker News Clone', stories: stories };
 //          res.render('index', templateData);
 //       })
 //       .catch(err => {
@@ -141,16 +143,16 @@ app.use(function(err, req, res, next){
 //       .then(res => res.data);
 // }
 
-// const getMostRecentAsync = async (numberArticles = 20) => {
+// const getMostRecentAsync = async (numberstories = 20) => {
 //    const recentIds = await getMostRecentIdsAsync();
-//    return Promise.all(recentIds.slice(0, numberArticles)
-//       .map( articleId => getItemAsync(articleId)));
+//    return Promise.all(recentIds.slice(0, numberstories)
+//       .map( storyId => getItemAsync(storyId)));
 // }
 
 // app.get('/async', (req, res) => {
 //    getMostRecentAsync(4)
-//       .then(articles => {
-//          let templateData = { title: 'Home', heading: 'Hacker News Clone', articles: articles };
+//       .then(stories => {
+//          let templateData = { title: 'Home', heading: 'Hacker News Clone', stories: stories };
 //          res.render('index', templateData);
 //       })
 //       .catch(err => {

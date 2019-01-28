@@ -5,6 +5,6 @@ var router = express.Router();
 const story_controller = require('../controllers/storyController');
 
 // Routes
-router.get('/', story_controller.top_story_list);
+router.get('/story/:storyId', story_controller.story_detail);
 
-module.exports = router;
+module.exports = router;   

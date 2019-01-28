@@ -16,7 +16,7 @@ nav > ul{
    list-style: none inside none;
    margin: 0;
    display: flex;
-   padding: 1px;
+   padding: 2px;
    align-items: center;
 }
 
@@ -67,7 +67,7 @@ nav .login{
    margin-left: auto;
 }
 
-article{
+story{
    padding: 10px 0px;
    border-top: none;
 }
@@ -76,14 +76,18 @@ nav{
    background: #ff6600;
 }
 
-/** Article List and Articles **/
-.article-list {
+main{
+   background: #f6f6ef;
+}
+
+/** story List and storys **/
+.story-list {
    padding: 0;
    list-style-position: outside;
    list-style-type: decimal;
    margin: 0;
 }
 
-.article-list li{
+.story-list li{
    margin-left: 20px;
 }

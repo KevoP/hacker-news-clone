@@ -4,17 +4,17 @@
       <h1><%= heading %></h1>
 
       <h2>
-         <%= article.title %>
+         <%= story.title %>
       </h2>
 
-      <a href="<%= article.url %>">
-         <%= article.url %>
+      <a href="<%= story.url %>">
+         <%= story.url %>
       </a><br>
 
-      By <a href="/user/<%= article.by %>">
-         <%= article.by %>
+      By <a href="/user/<%= story.by %>">
+         <%= story.by %>
       </a><br>                  
-      <%= article.score %> points
+      <%= story.score %> points
 
       <% if(comments && comments.length > 0) { %>
          <ul>
